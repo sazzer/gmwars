@@ -68,10 +68,11 @@
                         icon: pinImage,
                         shadow: pinShadow
                     });
+                    return marker;
                 }
 
                 function placeBuilding(name, place, size) {
-                    placeMarker(name, place, "9999FF");
+                    var marker = placeMarker(name, place, "9999FF");
                     var area = new google.maps.Circle({
                         strokeColor: "#0000FF",
                         strokeOpacity: 0.5,
@@ -82,16 +83,41 @@
                         radius: size,
                         map: map
                     });
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: ["<div id='content'>",
+                            "<h1 id='firstHeading' class='firstHeading'>" + name + "</h1>",
+                            "<div id='bodyContent'>",
+                            "<p>Details of the building will go here</p>",
+                            "</div>",
+                            "</div>"
+                            ].join("")
+                    });
+                    google.maps.event.addListener(marker, "click", function(event) {
+                        infoWindow.open(map, marker);
+                    });
                 }
 
                 function placeArmy(army) {
-                    placeMarker(army.name, army, "3333FF");
+                    var marker = placeMarker(army.name, army, "3333FF");
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: ["<div id='content'>",
+                            "<h1 id='firstHeading' class='firstHeading'>" + army.name + "</h1>",
+                            "<div id='bodyContent'>",
+                            "<p>Details of the army will go here</p>",
+                            "</div>",
+                            "</div>"
+                            ].join("")
+                    });
+
+                    google.maps.event.addListener(marker, "click", function(event) {
+                        infoWindow.open(map, marker);
+                    });
                 }
 
                 setTimeout(function() {
-                    placeBuilding(playerData.name, playerData.home, 500);
+                    placeBuilding(playerData.name, playerData.home, 300);
                     for (var i = 0; i < playerData.buildings.length; ++i) {
-                        placeBuilding(playerData.buildings[i].name, playerData.buildings[i], 200);
+                        placeBuilding(playerData.buildings[i].name, playerData.buildings[i], 150);
                     }
                     for (var i = 0; i < playerData.armies.length; ++i) {
                         placeArmy(playerData.armies[i]);
