@@ -8,6 +8,100 @@
             body { height: 100%; width: 100%; margin: 0; padding: 0; }
             #map { height: 100%; width: 100%; }
         </style>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAn3uaZKOP11QjkkrYCiQ-57KKqNR4WXOg&sensor=false"></script>
+        <script type="text/javascript">
+            var playerData = {
+                name: "sazzer",
+                home: {
+                    latitude: 51.498841,
+                    longitude: -0.087767
+                },
+                buildings: [
+                    {
+                        name: "Barracks #1",
+                        latitude: 51.498517,
+                        longitude: -0.088132
+                    },
+                    {
+                        name: "Tank Factory #1",
+                        latitude: 51.497749,
+                        longitude: -0.085010
+                    },
+                    {
+                        name: "Barracks #2",
+                        latitude: 51.498110,
+                        longitude: -0.087402
+                    },
+                ],
+                armies: [
+                    {
+                        name: "Army #1",
+                        latitude: 51.498461,
+                        longitude: -0.084098
+                    }
+                ]
+            };
+            google.maps.event.addDomListener(window, "load", function() {
+                var map = new google.maps.Map(document.getElementById("map"), {
+                    center: new google.maps.LatLng(0, 0),
+                    zoom: 1,
+                    mapTypeId: google.maps.MapTypeId.SATELLITE
+                });
+                google.maps.event.addListener(map, "click", function(event) {
+                    console.log(event);
+                });
+
+                function placeMarker(name, place, colour) {
+                    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colour,
+                        new google.maps.Size(21, 34),
+                        new google.maps.Point(0,0),
+                        new google.maps.Point(10, 34));
+                    var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                        new google.maps.Size(40, 37),
+                        new google.maps.Point(0, 0),
+                        new google.maps.Point(12, 35));                
+
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(place.latitude, place.longitude),
+                        map: map,
+                        title: name,
+                        icon: pinImage,
+                        shadow: pinShadow
+                    });
+                }
+
+                function placeBuilding(name, place, size) {
+                    placeMarker(name, place, "9999FF");
+                    var area = new google.maps.Circle({
+                        strokeColor: "#0000FF",
+                        strokeOpacity: 0.5,
+                        strokeWeight: 1, 
+                        fillColor: "#0000FF",
+                        fillOpacity: 0.15,
+                        center: new google.maps.LatLng(place.latitude, place.longitude),
+                        radius: size,
+                        map: map
+                    });
+                }
+
+                function placeArmy(army) {
+                    placeMarker(army.name, army, "3333FF");
+                }
+
+                setTimeout(function() {
+                    placeBuilding(playerData.name, playerData.home, 500);
+                    for (var i = 0; i < playerData.buildings.length; ++i) {
+                        placeBuilding(playerData.buildings[i].name, playerData.buildings[i], 200);
+                    }
+                    for (var i = 0; i < playerData.armies.length; ++i) {
+                        placeArmy(playerData.armies[i]);
+                    }
+
+                    map.panTo(new google.maps.LatLng(playerData.home.latitude, playerData.home.longitude));
+                    map.setZoom(17);
+                }, 1000);
+            });
+        </script>
     </head>
     <body>
         <div id="map"></div>
