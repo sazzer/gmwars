@@ -27,6 +27,7 @@ configData.general = {
     "action":      __dirname + "/actions",
     "task":        __dirname + "/tasks",
     "public":      __dirname + "/public",
+    "templates":   __dirname + "/templates",
     "pid":         __dirname + "/pids",
     "log":         __dirname + "/log",
     "server":      __dirname + "/servers",
@@ -133,7 +134,7 @@ configData.servers = {
       'Access-Control-Allow-Headers': 'Content-Type'
     },    
     urlPathForActions : "api",           // Route that actions will be served from; secondary route against this route will be treated as actions, IE: /api/?action=test == /api/test/
-    urlPathForFiles : "",                // Route that static files will be served from; path (relitive to your project root) to server static content from
+    urlPathForFiles : "public",          // Route that static files will be served from; path (relitive to your project root) to server static content from
     rootEndpointType : "api",            // When visiting the root URL, should visitors see "api" or "file"? Visitors can always visit /api and /public as normal
     directoryFileType : "index.html",    // The default filetype to server when a user requests a directory
     flatFileCacheDuration : 60,          // The header which will be returned for all flat file served from /public; defined in seconds

@@ -41,4 +41,8 @@ example:
 // ROUTES //
 ////////////
 
-exports.routes = {};
+exports.routes = {
+    get: [
+        { path: "/", action: "templated" }
+    ]
+};

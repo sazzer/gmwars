@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "author": "Graham Cox <graham@grahamcox.co.uk>",
   "dependencies": {
-    "actionHero": "~7.0.0"
+    "actionHero": "~7.0.0",
+    "streamifier": "~0.1.0",
+    "combyne": "~0.2.1"
   },
   "devDependencies": {
     "vows": "~0.7.0"
