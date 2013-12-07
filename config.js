@@ -164,6 +164,12 @@ configData.servers = {
   // },
 };
 
+configData.application = {
+    google: {
+        apiKey: "AIzaSyAn3uaZKOP11QjkkrYCiQ-57KKqNR4WXOg"
+    }
+};
+
 //////////////////////////////////
 
 exports.configData = configData;
