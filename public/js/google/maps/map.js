@@ -9,8 +9,9 @@ var ZOOM_OUT_LEVEL = 4,
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/domReady!"], function(declare, lang) {
-    var MapClass = declare("GMWars.google.maps.Map", null, {
+    "gmwars/google/maps/base",
+    "dojo/domReady!"], function(declare, lang, MapsBase) {
+    var MapClass = declare("GMWars.google.maps.Map", MapsBase, {
         constructor: function() {
             this._center = this._convertToLatLng({lat: 0.0, lng: 0.0});
             this._zoom = 10;
@@ -103,22 +104,6 @@ define([
             } else {
                 clearInterval(this._zoomInterval);
             }
-        },
-
-        /**
-         * Helper to convert an input to a LatLng object. The input can be one of a number
-         * of things that all get translated correctly
-         * @param coords The object to translate
-         * @return the google.maps.LatLng object
-         */
-        _convertToLatLng: function(coords) {
-            var result;
-            if (lang.isObject(coords)) {
-                if (lang.exists("lat", coords) && lang.exists("lng", coords)) {
-                    result = new google.maps.LatLng(coords.lat, coords.lng);
-                }
-            }
-            return result;
         }
     });
 
