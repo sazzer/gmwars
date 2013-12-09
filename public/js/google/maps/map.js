@@ -25,6 +25,13 @@ define([
         },
 
         /**
+         * Get the raw Map object
+         */
+        getRawMap: function() {
+            return this._map;
+        },
+
+        /**
          * Adjust the map display to target the given coordinates at the given zoom level. This will happen over a short period of time
          * to give the impression that the map is panning and zooming to the location
          */
