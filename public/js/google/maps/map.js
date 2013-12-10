@@ -33,7 +33,8 @@ define([
             this._map = new google.maps.Map(mapElem, {
                 center: this._center,
                 zoom: this._zoom,
-                mapTypeId: google.maps.MapTypeId.SATELLITE
+                mapTypeId: google.maps.MapTypeId.SATELLITE,
+
             });
 
             this._map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchElem);
@@ -52,9 +53,9 @@ define([
 
             if (places && places.length > 0) {
                 var place = places[0];
-                var position = place.geometry.location;
 
-                this._map.panTo(position);
+                this._map.panTo(place.geometry.location);
+                this._map.fitBounds(place.geometry.viewport);
             }
         },
 
