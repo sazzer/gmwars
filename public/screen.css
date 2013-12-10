@@ -58,3 +58,11 @@ body {
     font-size: 13px;
     font-weight: 300;
 }
+
+#help-window {
+    margin: 3em;
+    padding: 0.5em;
+    background-color: #ffffff;
+    color: #000000;
+    border: 3px solid #000000;
+}

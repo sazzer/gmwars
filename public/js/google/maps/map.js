@@ -10,9 +10,10 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/dom-construct",
+    "dojo/dom-style",
     "dojo/_base/window",
     "gmwars/google/maps/base",
-    "dojo/domReady!"], function(declare, lang, domConstruct, win, MapsBase) {
+    "dojo/domReady!"], function(declare, lang, domConstruct, domStyle, win, MapsBase) {
     var MapClass = declare("GMWars.google.maps.Map", MapsBase, {
         constructor: function() {
             var mapElem = domConstruct.create("div", {
@@ -27,6 +28,11 @@ define([
                 }, 
                 win.body());
 
+            this._helpWindowDiv = domConstruct.create("div", {
+                    id: "help-window"
+                }, 
+                win.body());
+
             this._center = this._convertToLatLng({lat: 0.0, lng: 0.0});
             this._zoom = 10;
 
@@ -38,11 +44,30 @@ define([
             });
 
             this._map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchElem);
+            this._map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this._helpWindowDiv);
 
             this._searchBox = new google.maps.places.SearchBox(searchElem);
             
             google.maps.event.addListener(this._searchBox, "places_changed", dojo.hitch(this, this._onSearchBoxPlacesChanged));
+
+            this.hideHelp();
             console.log("Created a map");
+        },
+
+        /**
+         * Hide the help window
+         */
+        hideHelp: function() {
+            domStyle.set(this._helpWindowDiv, "display", "none");
+        },
+
+        /**
+         * Show the help window with the given markup in it
+         */
+        showHelp: function(help) {
+            var helpContents = domConstruct.toDom(help);
+            domConstruct.place(helpContents, this._helpWindowDiv, "only");
+            domStyle.set(this._helpWindowDiv, "display", "block");
         },
 
         /**
