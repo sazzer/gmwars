@@ -9,19 +9,53 @@ var ZOOM_OUT_LEVEL = 4,
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
+    "dojo/dom-construct",
+    "dojo/_base/window",
     "gmwars/google/maps/base",
-    "dojo/domReady!"], function(declare, lang, MapsBase) {
+    "dojo/domReady!"], function(declare, lang, domConstruct, win, MapsBase) {
     var MapClass = declare("GMWars.google.maps.Map", MapsBase, {
         constructor: function() {
+            var mapElem = domConstruct.create("div", {
+                    id: "map"
+                }, 
+                win.body());
+            var searchElem = domConstruct.create("input", {
+                    type: "text",
+                    id: "pac-input",
+                    className: "controls",
+                    placeholder: "Search the map"
+                }, 
+                win.body());
+
             this._center = this._convertToLatLng({lat: 0.0, lng: 0.0});
             this._zoom = 10;
 
-            this._map = new google.maps.Map(document.getElementById("map"), {
+            this._map = new google.maps.Map(mapElem, {
                 center: this._center,
                 zoom: this._zoom,
                 mapTypeId: google.maps.MapTypeId.SATELLITE
             });
+
+            this._map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchElem);
+
+            this._searchBox = new google.maps.places.SearchBox(searchElem);
+            
+            google.maps.event.addListener(this._searchBox, "places_changed", dojo.hitch(this, this._onSearchBoxPlacesChanged));
             console.log("Created a map");
+        },
+
+        /**
+         * Handle when the search box has a place name selected
+         */
+        _onSearchBoxPlacesChanged: function() {
+            var places = this._searchBox.getPlaces();
+
+            if (places && places.length > 0) {
+                var place = places[0];
+                var position = place.geometry.location;
+
+                this._map.panTo(position);
+            }
         },
 
         /**
@@ -29,6 +63,19 @@ define([
          */
         getRawMap: function() {
             return this._map;
+        },
+
+        /**
+         * Go directly to a given position on the map.
+         */
+        goTo: function(coords, zoom) {
+            var latLng = this._convertToLatLng(coords);
+            if (latLng) {
+                this._map.panTo(latLng);
+            }
+            if (zoom) {
+                this._map.setZoom(zoom);
+            }
         },
 
         /**

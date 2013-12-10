@@ -22,7 +22,7 @@ define([
             },
             radius: 500
         });
-        map.zoomTo({
+        map.goTo({
             lat: 51.498841,
             lng: -0.087767
         }, 16);
