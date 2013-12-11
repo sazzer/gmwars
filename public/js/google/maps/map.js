@@ -12,9 +12,10 @@ define([
     "dojo/dom-construct",
     "dojo/dom-style",
     "dojo/_base/window",
+    "dojo/Evented",
     "gmwars/google/maps/base",
-    "dojo/domReady!"], function(declare, lang, domConstruct, domStyle, win, MapsBase) {
-    var MapClass = declare("GMWars.google.maps.Map", MapsBase, {
+    "dojo/domReady!"], function(declare, lang, domConstruct, domStyle, win, Evented, MapsBase) {
+    var MapClass = declare("GMWars.google.maps.Map", [Evented, MapsBase], {
         constructor: function() {
             var mapElem = domConstruct.create("div", {
                     id: "map"
@@ -49,6 +50,7 @@ define([
             this._searchBox = new google.maps.places.SearchBox(searchElem);
             
             google.maps.event.addListener(this._searchBox, "places_changed", dojo.hitch(this, this._onSearchBoxPlacesChanged));
+            google.maps.event.addListener(this._map, "click", dojo.hitch(this, this._onMapClicked));
 
             this.hideHelp();
             console.log("Created a map");
@@ -68,6 +70,23 @@ define([
             var helpContents = domConstruct.toDom(help);
             domConstruct.place(helpContents, this._helpWindowDiv, "only");
             domStyle.set(this._helpWindowDiv, "display", "block");
+        },
+
+        /**
+         * Handle when the user clicks on the map somewhere
+         */
+        _onMapClicked: function(e) {
+            var latlng = e.latLng,
+                lat = latlng.lat(),
+                lng = latlng.lng(),
+                position = {
+                    lat: lat,
+                    lng: lng
+                };
+
+            this.emit("click", {
+                position: position
+            });
         },
 
         /**
