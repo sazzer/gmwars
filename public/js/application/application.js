@@ -5,11 +5,12 @@ define([
     "gmwars/google/maps/map",
     "gmwars/google/maps/geocoder",
     "gmwars/game/player",
-    "gmwars/google/maps/marker"], function(map, geocoder, player, Marker) {
+    "gmwars/view/help",
+    "gmwars/google/maps/marker"], function(map, geocoder, player, helpWindow, Marker) {
 
-    map.showHelp("This is the help I want to display");
+    helpWindow.showHelp("This is the help I want to display");
     player.then(function(p) {
-        map.showHelp("Player name: " + p.getName());
+        helpWindow.showHelp("Player name: " + p.getName());
     });
     map.on("click", function(event) {
         var position = event.position,
@@ -19,9 +20,9 @@ define([
         geocoder.lookup(position).then(function(value) {
             var helpText = "You clicked on (" + lat + ", " + lng + ").";
             helpText += "The address here is: " + value[0].address.formatted;
-            map.showHelp(helpText);
+            helpWindow.showHelp(helpText);
         }, function(error) {
-            map.showHelp("An error occurred: " + error);
+            helpWindow.showHelp("An error occurred: " + error);
         });
     });
 });
