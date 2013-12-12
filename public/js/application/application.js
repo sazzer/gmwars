@@ -4,9 +4,13 @@
 define([
     "gmwars/google/maps/map",
     "gmwars/google/maps/geocoder",
-    "gmwars/google/maps/marker"], function(map, geocoder, Marker) {
+    "gmwars/game/player",
+    "gmwars/google/maps/marker"], function(map, geocoder, player, Marker) {
 
     map.showHelp("This is the help I want to display");
+    player.then(function(p) {
+        map.showHelp("Player name: " + p.getName());
+    });
     map.on("click", function(event) {
         var position = event.position,
             lat = position.lat,
