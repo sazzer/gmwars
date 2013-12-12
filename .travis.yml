@@ -1,3 +1,11 @@
 language: node_js
 node_js:
-    - "0.10"
+- '0.10'
+deploy:
+  provider: heroku
+  api_key:
+    secure: wVkwYJ3Y/6gGk7LNtb4sMnXlorx2b2l89RQEQSdNCqscnCfCA4WPPjNSlmxE2vQzq/NshSpntAunQdYQDOfUKx6Ohvcooj5GQ6cc8lHurl1EWt4p9kb9bzEe1Sor+5v2uWJkTyvUrkxcmSf9tfovRC2juoXEedZusN1eoWF7w6Q=
+  app: 
+    master: shielded-ridge-9336
+  on:
+    repo: sazzer/gmwars
