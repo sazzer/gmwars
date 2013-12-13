@@ -3,34 +3,26 @@
  */
 define([
     "dojo/_base/declare",
+    "dijit/_WidgetBase",
+    "dijit/_TemplatedMixin",
     "dojo/dom-construct",
     "dojo/dom-style",
-    "dojo/_base/window",
+    "dojo/text!./templates/help.tmpl",
     "dojo/domReady!"
-    ], function(declare, domConstruct, domStyle, win) {
-    var HelpClass = declare("GMWars.view.Help", null, {
-        /**
-         * Construct the window
-         */
-        constructor: function() {
-            this._helpWindowDiv = domConstruct.create("div", {
-                    id: "help-window"
-                }, 
-                win.body());
-
-            this.hideHelp();
-        },
+    ], function(declare, _WidgetBase, _TemplatedMixin, domConstruct, domStyle, template) {
+    var HelpClass = declare("GMWars.view.Help", [_WidgetBase, _TemplatedMixin], {
+        templateString: template,
         /**
          * Get the raw element that represents the help window
          */
         getRawElement: function() {
-            return this._helpWindowDiv;
+            return this.domNode;
         },
         /**
          * Hide the help window
          */
         hideHelp: function() {
-            domStyle.set(this._helpWindowDiv, "display", "none");
+            domStyle.set(this.domNode, "display", "none");
         },
 
         /**
@@ -38,8 +30,8 @@ define([
          */
         showHelp: function(help) {
             var helpContents = domConstruct.toDom(help);
-            domConstruct.place(helpContents, this._helpWindowDiv, "only");
-            domStyle.set(this._helpWindowDiv, "display", "block");
+            domConstruct.place(helpContents, this.domNode, "only");
+            domStyle.set(this.domNode, "display", "block");
         },
     });
 

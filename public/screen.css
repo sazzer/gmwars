@@ -59,7 +59,7 @@ body {
     font-weight: 300;
 }
 
-#help-window {
+.help-window {
     margin: 3em;
     padding: 0.5em;
     background-color: #ffffff;
