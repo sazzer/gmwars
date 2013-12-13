@@ -13,6 +13,12 @@ define([
     var HelpClass = declare("GMWars.view.Help", [_WidgetBase, _TemplatedMixin], {
         templateString: template,
         /**
+         * Ensure that when the widget is created that the help is initially hidden
+         */
+        postCreate: function() {
+            this.hideHelp();
+        },
+        /**
          * Get the raw element that represents the help window
          */
         getRawElement: function() {

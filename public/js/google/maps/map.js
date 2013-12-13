@@ -13,8 +13,9 @@ define([
     "dojo/_base/window",
     "dojo/Evented",
     "gmwars/view/help",
+    "gmwars/view/player",
     "gmwars/google/maps/base",
-    "dojo/domReady!"], function(declare, lang, domConstruct, win, Evented, helpWindow, MapsBase) {
+    "dojo/domReady!"], function(declare, lang, domConstruct, win, Evented, helpWindow, playerWindow, MapsBase) {
     var MapClass = declare("GMWars.google.maps.Map", [Evented, MapsBase], {
         constructor: function() {
             var mapElem = domConstruct.create("div", {
@@ -41,6 +42,7 @@ define([
 
             this._map.controls[google.maps.ControlPosition.TOP_LEFT].push(searchElem);
             this._map.controls[google.maps.ControlPosition.TOP_RIGHT].push(helpWindow.getRawElement());
+            this._map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(playerWindow.getRawElement());
 
             this._searchBox = new google.maps.places.SearchBox(searchElem);
             
