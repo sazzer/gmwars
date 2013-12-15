@@ -6,7 +6,8 @@
   "dependencies": {
     "actionHero": "~7.0.0",
     "streamifier": "~0.1.0",
-    "combyne": "~0.2.1"
+    "combyne": "~0.2.1",
+    "hapi": "~1.20.0"
   },
   "devDependencies": {
     "vows": "~0.7.0"
