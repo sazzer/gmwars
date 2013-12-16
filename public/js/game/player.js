@@ -19,6 +19,12 @@ define([
          */
         getName: function() {
             return this._name;
+        },
+        /**
+         * Get the details of all of the players buildings
+         */
+        getBuildings: function() {
+            return [];
         }
     });
 

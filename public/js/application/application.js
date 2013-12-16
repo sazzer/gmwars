@@ -3,27 +3,21 @@
  */
 define([
     "gmwars/google/maps/map",
-    "gmwars/google/maps/geocoder",
     "gmwars/game/player",
-    "gmwars/view/help",
-    "gmwars/google/maps/marker"], function(map, geocoder, player, helpWindow, Marker) {
+    "gmwars/states/newPlayerState"
+    ], function(map, player, NewPlayerState) {
 
-    helpWindow.showHelp("This is the help I want to display");
-    player.then(function(p) {
-        helpWindow.showHelp("Player name: " + p.getName());
+    var state = undefined;
+
+    player.then(function(player) {
+        if (player.getBuildings().length == 0) {
+            // The player doesn't have any buildings. This means they need to place a headquarters.
+            state = new NewPlayerState();
+        }
     });
-    map.on("click", function(event) {
-        var position = event.position,
-            lat = position.lat,
-            lng = position.lng;
 
-        geocoder.lookup(position).then(function(value) {
-            var helpText = "You clicked on (" + lat + ", " + lng + ").";
-            helpText += "The address here is: " + value[0].address.formatted;
-            helpWindow.showHelp(helpText);
-        }, function(error) {
-            helpWindow.showHelp("An error occurred: " + error);
-        });
+    map.on("click", function(event) {
+        state.onClickMap(event.position);
     });
 });
 
