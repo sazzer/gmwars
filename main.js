@@ -1,6 +1,6 @@
 var Hapi = require("hapi");
 
-var server = Hapi.createServer("0.0.0.0", 8080, {
+var server = Hapi.createServer("0.0.0.0", parseInt(process.env.PORT, 10) || 8080, {
     views: {
         path: "templates",
         engines: {
@@ -8,6 +8,7 @@ var server = Hapi.createServer("0.0.0.0", 8080, {
         }
     }
 });
+console.log("Started server on port " + server.info.port);
 
 server.route({
     method: "GET",
