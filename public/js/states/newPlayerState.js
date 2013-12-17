@@ -5,11 +5,12 @@ define([
     "dojo/_base/declare",
     "dojo/_base/array",
     "dojo/i18n",
+    "dijit/Dialog",
     "gmwars/game/player",
     "gmwars/view/help",
     "gmwars/google/maps/geocoder",
     "dojo/i18n!./nls/newPlayerState"
-    ], function(declare, array, i18n, player, helpWindow, geocoder) {
+    ], function(declare, array, i18n, Dialog, player, helpWindow, geocoder) {
     return declare("GMWars.states.NewPlayerState", null, {
         /**
          * Construct the state
@@ -26,21 +27,26 @@ define([
             var lat = position.lat,
                 lng = position.lng;
 
-            geocoder.lookup(position).then(function(value) {
+            var hqDialog = new Dialog({
+                title: "Select Headquarters",
+                style: "width: 300px"
+            });
+
+            geocoder.lookup(position).then(dojo.hitch(this, function(value) {
                 var buildingAddresses = array.filter(value, function(v) {
                     return v.position.type == "ROOFTOP";
                 });
                 if (buildingAddresses.length > 0) {
-                    var helpText = "You clicked on (" + lat + ", " + lng + ").";
-                    helpText += "The address here is: " + value[0].address.formatted;
-                    helpWindow.showHelp(helpText);
+                    hqDialog.set("content", this.strings.validBuilding.replace("{address}", value[0].address.formatted));
                 } else {
-                    alert("That's not a building");
+                    hqDialog.set("content", this.strings.invalidBuilding);
                 }
+                hqDialog.show();
             
-            }, function(error) {
-                helpWindow.showHelp("An error occurred: " + error);
-            });
+            }), dojo.hitch(this, function(error) {
+                hqDialog.set("content", this.strings.invalidBuilding);
+                hqDialog.show();
+            }));
         }
     });
 });
