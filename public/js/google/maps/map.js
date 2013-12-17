@@ -31,7 +31,7 @@ define([
                 win.body());
 
             this._center = this._convertToLatLng({lat: 0.0, lng: 0.0});
-            this._zoom = 10;
+            this._zoom = 4;
 
             this._map = new google.maps.Map(mapElem, {
                 center: this._center,
