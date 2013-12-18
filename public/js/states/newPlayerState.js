@@ -7,11 +7,12 @@ define([
     "dojo/i18n",
     "dijit/Dialog",
     "dojo/on",
+    "gmwars/application/request",
     "gmwars/game/player",
     "gmwars/view/help",
     "gmwars/google/maps/geocoder",
     "dojo/i18n!./nls/newPlayerState"
-    ], function(declare, array, i18n, Dialog, on, player, helpWindow, geocoder) {
+    ], function(declare, array, i18n, Dialog, on, Request, player, helpWindow, geocoder) {
     return declare("GMWars.states.NewPlayerState", null, {
         /**
          * Construct the state
@@ -50,8 +51,19 @@ define([
                     hqDialog.set("content", content);
                     
                     on(dojo.query(".okButton", hqDialog.get("containerNode")), "click", function(evt) {
-                        alert("OK was pressed");
-                        hqDialog.destroyRecursive();
+                        var req = new Request({url: "/api/place", method: "POST"});
+                        req.setData({
+                            type: "HQ",
+                            lat: lat,
+                            lng: lng
+                        });
+                        req.go().then(function(response) {
+                            console.log("HQ Created");
+                            hqDialog.destroyRecursive();
+                        }, function(error) {
+                            console.log("HQ Not Created: " + error);
+                            hqDialog.destroyRecursive();
+                        });
                     });
                     on(dojo.query(".cancelButton", hqDialog.get("containerNode")), "click", function(evt) {
                         hqDialog.destroyRecursive();
