@@ -6,11 +6,12 @@ define([
     "dojo/_base/array",
     "dojo/i18n",
     "dijit/Dialog",
+    "dojo/on",
     "gmwars/game/player",
     "gmwars/view/help",
     "gmwars/google/maps/geocoder",
     "dojo/i18n!./nls/newPlayerState"
-    ], function(declare, array, i18n, Dialog, player, helpWindow, geocoder) {
+    ], function(declare, array, i18n, Dialog, on, player, helpWindow, geocoder) {
     return declare("GMWars.states.NewPlayerState", null, {
         /**
          * Construct the state
@@ -28,7 +29,7 @@ define([
                 lng = position.lng;
 
             var hqDialog = new Dialog({
-                title: "Select Headquarters",
+                title: this.strings.placeHeadquartersTitle,
                 style: "width: 300px"
             });
 
@@ -37,7 +38,24 @@ define([
                     return v.position.type == "ROOFTOP";
                 });
                 if (buildingAddresses.length > 0) {
-                    hqDialog.set("content", this.strings.validBuilding.replace("{address}", value[0].address.formatted));
+                    var content = [
+                        "<div>",
+                            "<span>" + this.strings.validBuilding.replace("{address}", value[0].address.formatted) + "</span>",
+                            "<div class='dijitDialogPaneActionBar'>",
+                                "<button class='okButton'>" + this.strings.validBuildingOk + "</button>",
+                                "<button class='cancelButton'>" + this.strings.validBuildingCancel + "</button>",
+                            "</div>",
+                        "</div>"
+                    ].join("");
+                    hqDialog.set("content", content);
+                    
+                    on(dojo.query(".okButton", hqDialog.get("containerNode")), "click", function(evt) {
+                        alert("OK was pressed");
+                        hqDialog.destroyRecursive();
+                    });
+                    on(dojo.query(".cancelButton", hqDialog.get("containerNode")), "click", function(evt) {
+                        hqDialog.destroyRecursive();
+                    });
                 } else {
                     hqDialog.set("content", this.strings.invalidBuilding);
                 }
