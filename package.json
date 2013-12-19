@@ -13,7 +13,7 @@
   "bin": {},
   "main": "./src/main/gmwars.js",
   "scripts": {
-    "start": "node ./main.js",
+    "start": "node src/main.js",
     "test": "vows --spec"
   },
   "licenses": [],
