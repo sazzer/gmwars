@@ -51,7 +51,7 @@ define([
                     hqDialog.set("content", content);
                     
                     on(dojo.query(".okButton", hqDialog.get("containerNode")), "click", function(evt) {
-                        var req = new Request({url: "/api/place", method: "POST"});
+                        var req = new Request({url: "/api/building", method: "PUT"});
                         req.setData({
                             type: "HQ",
                             lat: lat,
