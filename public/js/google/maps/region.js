@@ -56,6 +56,12 @@ define([
                     fillOpacity: this._colours.fill.opacity
                 });
             }
+        },
+        /**
+         * Destroy the region, removing it from the map
+         */
+        destroy: function() {
+            this._region.setMap(null);
         }
     });
 });

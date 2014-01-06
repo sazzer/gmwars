@@ -1,4 +1,4 @@
-var handlerFiles = ["./static", "./buildings"],
+var handlerFiles = ["./static", "./buildings", "./players"],
     handlers = [];
 
 for (var i = 0; i < handlerFiles.length; ++i) {
