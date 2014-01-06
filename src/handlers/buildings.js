@@ -21,5 +21,23 @@ module.exports = [
                 }
             }
         }
+    },
+    {
+        method: "GET",
+        path: "/api/building",
+        config: {
+            handler: function(request) {
+                request.reply([
+                    {
+                        id: "1",
+                        type: "HQ",
+                        owner: "sazzer",
+                        state: "self",
+                        lat: 53.3607212120665,
+                        lng: -1.462876796722412
+                    }
+                ]);
+            }
+        }
     }
 ];
