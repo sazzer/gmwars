@@ -1,3 +1,9 @@
+var regionColours = {
+    "self": "#0000ff",
+    "enemy": "#ff0000",
+    "friend": "#00ff00"
+};
+
 /**
  * UI View that represents the player regions
  */
@@ -29,6 +35,7 @@ define([
                 for (var i = 0; i < regions.length; ++i) {
                     var region = new Region({
                         map: map,
+                        colour: regionColours[regions[i].state],
                         topLeft: regions[i].topLeft,
                         bottomRight: regions[i].bottomRight
                     });

@@ -14,15 +14,16 @@ define([
             this._map = options.map;
             this._colours = {
                 stroke: {
-                    colour: "#FF0000",
+                    colour: options.colour || "#FF0000",
                     opacity: 0.8,
                     weight: 2
                 },
                 fill: {
-                    colour: "#FF0000",
+                    colour: options.colour || "#FF0000",
                     opacity: 0.35
                 }
             };
+
             if (options.radius) {
                 // It's a circle
                 this._position = this._convertToLatLng(options.position);
