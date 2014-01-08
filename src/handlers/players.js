@@ -35,6 +35,26 @@ module.exports = [
                 ]);
             }
         }
+    }, {
+        method: "GET",
+        path: "/api/player",
+        config: {
+            handler: function(request) {
+                request.reply({
+                    id: "P12345",
+                    name: "sazzer",
+                    buildings: [
+                        {
+                            id: "B12345",
+                            type: "HQ",
+                            name: "Headquarters",
+                            lat: 40.72624515100551,
+                            lng: -74.00474846363068
+                        }
+                    ]
+                });
+            }
+        }
     }
 ];
 
