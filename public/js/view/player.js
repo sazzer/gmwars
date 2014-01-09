@@ -6,11 +6,12 @@ define([
     "dojo/i18n",
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
+    "dojo/dom-style",
     "gmwars/game/player",
     "dojo/text!./templates/player.tmpl",
     "dojo/i18n!./nls/player",
     "dojo/domReady!"
-    ], function(declare, i18n, _WidgetBase, _TemplatedMixin, player, template) {
+    ], function(declare, i18n, _WidgetBase, _TemplatedMixin, domStyle, player, template) {
     var PlayerClass = declare("GMWars.view.Player", [_WidgetBase, _TemplatedMixin], {
         templateString: template,
         /**
@@ -27,7 +28,10 @@ define([
          * Ensure that when the widget is first created it gets the players details added to it
          */
         postCreate: function() {
-            player.then(dojo.hitch(this, this._renderPlayerDetails));
+            player.then(dojo.hitch(this, this._renderPlayerDetails), dojo.hitch(this, function() {
+                // If we fail to get the player, hide the player window
+                domStyle.set(this.domNode, "display", "none");
+            }));
         },
 
         /**

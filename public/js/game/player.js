@@ -41,15 +41,20 @@ define([
     });
 
     var playerPromise = new Deferred();
-    var req = new Request({
-        url: "/api/player"
-    });
-    req.go().then(function(response) {
-        var player = new PlayerClass(response);
-        playerPromise.resolve(player);
-    }, function(error) {
-        console.log("Failed to load player details");
-    });
+    if (dojoConfig.application.authToken) {
+        var req = new Request({
+            url: "/api/player"
+        });
+        req.go().then(function(response) {
+            var player = new PlayerClass(response);
+            playerPromise.resolve(player);
+        }, function(error) {
+            console.log("Failed to load player details");
+            playerPromise.reject(error);
+        });
+    } else {
+        playerPromise.reject("Not authorized");
+    }
 
     return playerPromise;
 });

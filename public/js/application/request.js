@@ -25,11 +25,17 @@ define([
          * Actually make the request happen
          */
         go: function() {
+            var headers = {
+                "X-GMWars": "true",
+            };
+
+            if (dojoConfig.application.authToken) {
+                headers["Authorization"] = "GMWars " + dojoConfig.application.authToken;
+            }
+
             return request(this._url, {
                 data: this._data,
-                headers: {
-                    "X-GMWars": "true"
-                },
+                headers: headers,
                 method: this._method,
                 timeout: 5000,
                 handleAs: "json"
